@@ -5,8 +5,9 @@ services:
     build: .
     command: python /code/manage.py runserver 0.0.0.0:8000
     environment:
-      - ENVIRONMENT=development
+      - ENVIRONMENT=production
       #- DJANGO_SECRET_KEY=x+fefi1v-_ye=8s-bm_rvsuwz0tdu@%^l#nti!$wow*@4k2g0l
+      - DEBUG=0
 
     volumes:
       - .:/code
@@ -23,19 +24,4 @@ services:
       POSTGRES_PASSWORD: postgres
     
 
-
-
-
-
-      
-
     
-  
-  
- 
-
-
-
-
-
-

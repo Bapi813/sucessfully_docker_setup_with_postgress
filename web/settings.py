@@ -16,16 +16,22 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
+ENVIRONMENT = os.environ.get('ENVIRONMENT', default='development')
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'x+fefi1v-_ye=8s-bm_rvsuwz0tdu@%^l#nti!$wow*@4k2g0l'
+#SECRET_KEY = 'x+fefi1v-_ye=8s-bm_rvsuwz0tdu@%^l#nti!$wow*@4k2g0l'
+#SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY','x+fefi1v-_ye=8s-bm_rvsuwz0tdu@%^l#nti!$wow*@4k2g0l')
+#SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
+with open(os.path.join(BASE_DIR,'pass.txt')) as f:
+    SECRET_KEY= f.read().strip()
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+#DEBUG = True
+DEBUG= int(os.environ.get('DEBUG',default=0))
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['.herokuapp.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -140,3 +146,15 @@ STATICFILES_FINDERS = [
 "django.contrib.staticfiles.finders.FileSystemFinder",
 "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 ]
+
+
+if ENVIRONMENT == 'production':
+    SECURE_BROWSER_XSS_FILTER = True
+    X_FRAME_OPTIONS = 'DENY'
+    SECURE_SSL_REDIRECT = True
+    SECURE_HSTS_SECONDS = 3600
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
